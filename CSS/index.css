@@ -1,0 +1,238 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f3ed;
+      --warm-white: #faf8f4;
+      --gold: #b89a5a;
+      --gold-light: #d4b87a;
+      --dark: #1c1a17;
+      --text: #3a3630;
+      --muted: #7a7268;
+      --border: #e0d8cc;
+      --card-bg: #f0ebe2;
+    }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--warm-white);
+      color: var(--text);
+      font-weight: 300;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+      filter: brightness(0.88) saturate(0.9);
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(247,243,237,0.95) 100%);
+    }
+
+    /* ── TITLE BLOCK ── */
+    .title-block {
+      text-align: center;
+      padding: 28px 24px 8px;
+      position: relative;
+    }
+
+    .title-ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-bottom: 6px;
+    }
+
+    .ornament-line {
+      flex: 1;
+      max-width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold));
+    }
+    .ornament-line.right {
+      background: linear-gradient(to left, transparent, var(--gold));
+    }
+
+    .ornament-icon {
+      color: var(--gold);
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+    }
+
+    h1.menu-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      color: var(--dark);
+      text-transform: uppercase;
+    }
+
+    .subtitle-line {
+      width: 60px;
+      height: 2px;
+      background: var(--gold);
+      margin: 14px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── INTRO TEXT ── */
+    .intro {
+      max-width: 820px;
+      margin: 22px auto 32px;
+      padding: 0 28px;
+      text-align: center;
+      font-size: 0.88rem;
+      line-height: 1.8;
+      color: var(--muted);
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+    }
+
+    /* ── GRID ── */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      max-width: 1000px;
+      margin: 0 auto 48px;
+      padding: 0 24px;
+    }
+
+    @media (max-width: 680px) {
+      .menu-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARD ── */
+    .menu-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 30px 28px 34px;
+      position: relative;
+      animation: fadeUp 0.7s ease both;
+    }
+
+    .menu-card:nth-child(2) { animation-delay: 0.12s; }
+    .menu-card:nth-child(3) { animation-delay: 0.22s; }
+    .menu-card:nth-child(4) { animation-delay: 0.32s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 26px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-header h2 {
+      font-family: 'Cinzel', serif;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    /* ── DISH ── */
+    .dish {
+      margin-bottom: 22px;
+    }
+
+    .dish:last-child { margin-bottom: 0; }
+
+    .dish-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dark);
+      font-weight: 600;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .dish-desc {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    .dish-variants {
+      list-style: none;
+      text-align: center;
+    }
+
+    .dish-variants li {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── CARD WITH IMAGE ── */
+    .card-with-image {
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+    }
+
+    .card-image {
+      width: 130px;
+      flex-shrink: 0;
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    .card-image img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      display: block;
+      border-radius: 3px;
+      filter: saturate(0.9);
+    }
+
+    .card-content { flex: 1; }
+
+    /* ── GOLD DIVIDER ── */
+    .gold-divider {
+      width: 32px;
+      height: 1px;
+      background: var(--gold-light);
+      margin: 14px auto;
+    }
+
+    /* ── FOOTER ORNAMENT ── */
+    .footer-ornament {
+      text-align: center;
+      padding: 20px 0 40px;
+      color: var(--gold);
+      font-size: 1.3rem;
+      letter-spacing: 8px;
+      opacity: 0.6;
+    }
