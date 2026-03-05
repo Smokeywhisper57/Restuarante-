@@ -1,0 +1,111 @@
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservas – Nombre del Restaurante</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/reservas.css" />
+</head>
+
+<body>
+
+<div class="top-bar">Nombre del restaurante</div>
+
+<div class="page">
+
+  <!-- Left photo -->
+  <div class="photo-col">
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=700&q=85" alt="Platillo del restaurante"/>
+  </div>
+
+  <!-- Right form -->
+  <div class="form-col">
+    <h1>Reserva una mesa</h1>
+
+    <div class="fields-grid">
+
+      <div class="field">
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha"/>
+      </div>
+
+      <div class="field">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre completo"/>
+      </div>
+
+      <div class="field">
+        <label for="hora">Hora:</label>
+        <input type="time" id="hora" name="hora"/>
+      </div>
+
+      <div class="field">
+        <label for="correo">Correo:</label>
+        <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com"/>
+      </div>
+
+      <div class="field">
+        <label>Número de Comensales:</label>
+        <div class="spinner-wrap">
+          <button class="spin-btn" onclick="changeGuests(-1)" type="button">−</button>
+          <input type="number" id="comensales" name="comensales" value="1" min="1" max="20"/>
+          <button class="spin-btn" onclick="changeGuests(1)" type="button">+</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="telefono">Número de Teléfono:</label>
+        <input type="tel" id="telefono" name="telefono" placeholder="228 000 0000"/>
+      </div>
+
+    </div>
+
+    <!-- Message + map button -->
+    <div class="msg-row">
+      <div class="field-full">
+        <label>Aquí para añadir un mensaje u observación</label>
+        <textarea id="mensaje" name="mensaje" placeholder="Ej. alergia a nueces, silla para bebé, ocasión especial…"></textarea>
+      </div>
+      <button class="btn-mapa" type="button" onclick="openMap()">Visualizar Mapa</button>
+    </div>
+
+    <div class="footer-row">
+      <button class="btn-siguiente" type="button" onclick="siguiente()">Siguiente</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function changeGuests(delta) {
+    const el = document.getElementById('comensales');
+    let v = parseInt(el.value) + delta;
+    if (v < 1) v = 1;
+    if (v > 20) v = 20;
+    el.value = v;
+  }
+
+  function openMap() {
+    window.open('https://www.google.com/maps/search/Hidalgo+94+Xalapa+Veracruz', '_blank');
+  }
+
+  function siguiente() {
+    const fecha = document.getElementById('fecha').value;
+    const nombre = document.getElementById('nombre').value.trim();
+    const hora = document.getElementById('hora').value;
+    const correo = document.getElementById('correo').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+
+    if (!fecha || !nombre || !hora || !correo || !telefono) {
+      alert('Por favor completa todos los campos obligatorios.');
+      return;
+    }
+    alert(`¡Reserva registrada!\n\nNombre: ${nombre}\nFecha: ${fecha}\nHora: ${hora}\nComensales: ${document.getElementById('comensales').value}`);
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+:root {
+      --cream: #f5f0e8;
+      --brown: #3b2112;
+      --brown-mid: #5c3d2e;
+      --brown-light: #8b6347;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --available: #d4edda;
+      --available-stroke: #4caf50;
+      --reserved: #f8d7da;
+      --reserved-stroke: #c0392b;
+      --selected: #fff3cd;
+      --selected-stroke: #c9a84c;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--brown); min-height: 100vh; }
+
+    .top-bar {
+      background: var(--white);
+      text-align: center;
+      padding: 8px;
+      font-size: .78rem;
+      color: var(--brown-mid);
+      border-bottom: 1px solid #ddd;
+    }
+
+    .page { max-width: 1000px; margin: 0 auto; padding: 28px 28px 40px; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      margin-bottom: 6px;
+      color: var(--brown);
+    }
+
+    /* legend */
+    .legend {
+      display: flex; gap: 20px; align-items: center;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 7px; font-size: .8rem; font-weight: 700; color: var(--brown-mid); }
+    .legend-dot {
+      width: 16px; height: 16px; border-radius: 4px; border: 2px solid;
+    }
+    .dot-avail  { background: var(--available);  border-color: var(--available-stroke); }
+    .dot-reserv { background: var(--reserved);   border-color: var(--reserved-stroke); }
+    .dot-select { background: var(--selected);   border-color: var(--selected-stroke); }
+
+    /* map canvas */
+    .map-wrap {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(59,33,18,.1);
+      padding: 24px;
+      overflow: auto;
+    }
+
+    svg.floor { width: 100%; max-width: 900px; display: block; margin: 0 auto; }
+
+    /* table groups */
+    .table-group { cursor: pointer; }
+    .table-group .surface {
+      fill: var(--available);
+      stroke: var(--available-stroke);
+      stroke-width: 2;
+      transition: fill .2s;
+    }
+    .table-group .chair {
+      fill: var(--available);
+      stroke: var(--available-stroke);
+      stroke-width: 1.5;
+      transition: fill .2s;
+    }
+    .table-group .label {
+      font-family: 'Lato', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      fill: #2c6e35;
+      text-anchor: middle;
+      dominant-baseline: middle;
+      pointer-events: none;
+    }
+    .table-group.reserved .surface { fill: var(--reserved); stroke: var(--reserved-stroke); }
+    .table-group.reserved .chair  { fill: var(--reserved); stroke: var(--reserved-stroke); }
+    .table-group.reserved .label  { fill: #922b21; }
+    .table-group.selected .surface { fill: var(--selected); stroke: var(--selected-stroke); }
+    .table-group.selected .chair   { fill: var(--selected); stroke: var(--selected-stroke); }
+    .table-group.selected .label   { fill: #7d6608; }
+
+    /* section labels */
+    .section-label {
+      font-family: 'Lato', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      fill: #aaa;
+      text-anchor: middle;
+      letter-spacing: 1px;
+    }
+
+    /* info panel */
+    .info-panel {
+      background: var(--white);
+      border: 2px solid var(--gold);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-top: 20px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 2px 10px rgba(201,168,76,.2);
+    }
+    .info-panel.visible { display: flex; }
+    .info-text h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--brown); }
+    .info-text p  { font-size: .82rem; color: var(--brown-mid); margin-top: 3px; }
+    .btn-confirm {
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 6px;
+      padding: 11px 28px;
+      font-family: 'Lato', sans-serif;
+      font-size: .85rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(59,33,18,.3);
+      transition: background .2s, transform .15s;
+    }
+    .btn-confirm:hover { background: var(--brown-mid); transform: translateY(-1px); }

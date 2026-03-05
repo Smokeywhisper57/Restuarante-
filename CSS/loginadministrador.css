@@ -1,0 +1,185 @@
+ :root {
+      --cream: #f5f0e8;
+      --brown: #3b2112;
+      --brown-mid: #5c3d2e;
+      --brown-light: #8b6347;
+      --white: #ffffff;
+      --border: #d0c8be;
+      --input-bg: #eeeae3;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-bar {
+      background: var(--white);
+      text-align: center;
+      padding: 8px;
+      font-size: .78rem;
+      color: var(--brown-mid);
+      border-bottom: 1px solid #ddd;
+    }
+
+    .page {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      max-width: 860px;
+      width: 100%;
+      margin: auto;
+      background: var(--white);
+      box-shadow: 0 8px 40px rgba(59,33,18,.13);
+      border-radius: 14px;
+      overflow: hidden;
+      min-height: 480px;
+    }
+
+    /* ── LEFT PANEL ── */
+    .left {
+      background: var(--cream);
+      padding: 52px 44px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: var(--brown);
+      margin-bottom: 32px;
+      font-weight: 700;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 22px; }
+    .field label {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--brown);
+    }
+
+    .input-wrap { position: relative; }
+    .input-wrap input {
+      width: 100%;
+      background: var(--input-bg);
+      border: none;
+      border-radius: 30px;
+      padding: 13px 46px 13px 20px;
+      font-family: 'Lato', sans-serif;
+      font-size: .92rem;
+      color: var(--brown);
+      outline: none;
+      transition: box-shadow .2s;
+    }
+    .input-wrap input:focus {
+      box-shadow: 0 0 0 2px var(--brown-light);
+    }
+    .toggle-pw {
+      position: absolute;
+      right: 14px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      cursor: pointer; color: var(--brown-mid);
+      display: flex; align-items: center;
+      font-size: 1.1rem;
+      padding: 0;
+      transition: color .2s;
+    }
+    .toggle-pw:hover { color: var(--brown); }
+
+    .btn-signin {
+      margin-top: 10px;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 30px;
+      padding: 14px 0;
+      width: 100%;
+      font-family: 'Lato', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(59,33,18,.35);
+      transition: background .2s, transform .15s, box-shadow .15s;
+    }
+    .btn-signin:hover {
+      background: var(--brown-mid);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(59,33,18,.4);
+    }
+
+    .error-msg {
+      display: none;
+      margin-top: 12px;
+      background: #fde8e8;
+      border: 1px solid #e57373;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: .82rem;
+      color: #922b21;
+      text-align: center;
+    }
+    .error-msg.visible { display: block; }
+
+    /* ── RIGHT PANEL ── */
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 40px;
+      background: var(--white);
+      gap: 20px;
+    }
+
+    .right h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      color: var(--brown);
+      font-weight: 700;
+      letter-spacing: .5px;
+    }
+
+    .divider {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .divider hr { flex: 1; border: none; border-top: 2px solid var(--brown); }
+
+    .sub-label {
+      font-size: .82rem;
+      color: var(--brown-mid);
+      letter-spacing: .5px;
+      text-align: center;
+    }
+
+    .photo-frame {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(59,33,18,.15);
+      border: 2px solid var(--border);
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+      transition: transform .5s;
+    }
+    .photo-frame:hover img { transform: scale(1.04); }
+
+    @media (max-width: 640px) {
+      .page { grid-template-columns: 1fr; border-radius: 0; }
+      .right { display: none; }
+      .left { padding: 40px 28px; }
+    }

@@ -1,0 +1,392 @@
+
+Mapa mesas · HTML
+Copiar
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mapa de Mesas – Nombre del Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="CSS/gestorreservas.css"/>
+</head>
+<body>
+
+<div class="top-bar">Nombre del restaurante</div>
+
+<div class="page">
+  <h1>Mapa De Mesas</h1>
+
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot dot-avail"></div> Disponible</div>
+    <div class="legend-item"><div class="legend-dot dot-reserv"></div> Reservada</div>
+    <div class="legend-item"><div class="legend-dot dot-select"></div> Seleccionada</div>
+  </div>
+
+  <div class="map-wrap">
+    <svg class="floor" viewBox="0 0 860 580" xmlns="http://www.w3.org/2000/svg">
+
+      <!-- Section label row 1 -->
+      <text class="section-label" x="430" y="18">SALÓN PRINCIPAL</text>
+
+      <!-- ═══ ROW 1 — small square tables ═══ -->
+
+      <!-- T1: 2-seat square -->
+      <g class="table-group" id="t1" onclick="selectTable(this,'Mesa 1','2 personas')">
+        <!-- chairs -->
+        <rect class="chair" x="68" y="42" width="14" height="10" rx="3"/>
+        <rect class="chair" x="68" y="72" width="14" height="10" rx="3"/>
+        <rect class="chair" x="44" y="54" width="10" height="16" rx="3"/>
+        <rect class="chair" x="96" y="54" width="10" height="16" rx="3"/>
+        <!-- table -->
+        <rect class="surface" x="56" y="50" width="38" height="24" rx="4"/>
+        <text class="label" x="75" y="63">M1</text>
+      </g>
+
+      <!-- T2: 4-seat square -->
+      <g class="table-group reserved" id="t2" onclick="selectTable(this,'Mesa 2','4 personas')">
+        <rect class="chair" x="163" y="38" width="14" height="10" rx="3"/>
+        <rect class="chair" x="163" y="76" width="14" height="10" rx="3"/>
+        <rect class="chair" x="140" y="52" width="10" height="20" rx="3"/>
+        <rect class="chair" x="190" y="52" width="10" height="20" rx="3"/>
+        <rect class="surface" x="152" y="48" width="36" height="28" rx="4"/>
+        <text class="label" x="170" y="63">M2</text>
+      </g>
+
+      <!-- T3: round 4-seat -->
+      <g class="table-group" id="t3" onclick="selectTable(this,'Mesa 3','4 personas')">
+        <circle class="chair" cx="258" cy="40" r="7"/>
+        <circle class="chair" cx="258" cy="84" r="7"/>
+        <circle class="chair" cx="236" cy="62" r="7"/>
+        <circle class="chair" cx="280" cy="62" r="7"/>
+        <circle class="surface" cx="258" cy="62" r="18"/>
+        <text class="label" x="258" y="63">M3</text>
+      </g>
+
+      <!-- T4: round 4-seat -->
+      <g class="table-group reserved" id="t4" onclick="selectTable(this,'Mesa 4','4 personas')">
+        <circle class="chair" cx="348" cy="40" r="7"/>
+        <circle class="chair" cx="348" cy="84" r="7"/>
+        <circle class="chair" cx="326" cy="62" r="7"/>
+        <circle class="chair" cx="370" cy="62" r="7"/>
+        <circle class="surface" cx="348" cy="62" r="18"/>
+        <text class="label" x="348" y="63">M4</text>
+      </g>
+
+      <!-- T5: round 6-seat -->
+      <g class="table-group" id="t5" onclick="selectTable(this,'Mesa 5','6 personas')">
+        <circle class="chair" cx="448" cy="36" r="7"/>
+        <circle class="chair" cx="472" cy="44" r="7"/>
+        <circle class="chair" cx="478" cy="72" r="7"/>
+        <circle class="chair" cx="458" cy="88" r="7"/>
+        <circle class="chair" cx="434" cy="82" r="7"/>
+        <circle class="chair" cx="424" cy="56" r="7"/>
+        <circle class="surface" cx="452" cy="62" r="22"/>
+        <text class="label" x="452" y="63">M5</text>
+      </g>
+
+      <!-- T6: round 8-seat -->
+      <g class="table-group" id="t6" onclick="selectTable(this,'Mesa 6','8 personas')">
+        <circle class="chair" cx="556" cy="34" r="7"/>
+        <circle class="chair" cx="578" cy="42" r="7"/>
+        <circle class="chair" cx="588" cy="66" r="7"/>
+        <circle class="chair" cx="578" cy="90" r="7"/>
+        <circle class="chair" cx="556" cy="98" r="7"/>
+        <circle class="chair" cx="534" cy="90" r="7"/>
+        <circle class="chair" cx="524" cy="66" r="7"/>
+        <circle class="chair" cx="534" cy="42" r="7"/>
+        <circle class="surface" cx="556" cy="66" r="26"/>
+        <text class="label" x="556" y="67">M6</text>
+      </g>
+
+      <!-- T7: round 6-seat large -->
+      <g class="table-group reserved" id="t7" onclick="selectTable(this,'Mesa 7','6 personas')">
+        <circle class="chair" cx="660" cy="36" r="7"/>
+        <circle class="chair" cx="684" cy="44" r="7"/>
+        <circle class="chair" cx="690" cy="72" r="7"/>
+        <circle class="chair" cx="668" cy="90" r="7"/>
+        <circle class="chair" cx="644" cy="82" r="7"/>
+        <circle class="chair" cx="636" cy="54" r="7"/>
+        <circle class="surface" cx="663" cy="62" r="24"/>
+        <text class="label" x="663" y="63">M7</text>
+      </g>
+
+      <!-- ═══ ROW 2 — rectangular tables ═══ -->
+
+      <!-- T8: rect 6-seat -->
+      <g class="table-group" id="t8" onclick="selectTable(this,'Mesa 8','6 personas')">
+        <rect class="chair" x="52" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="76" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="100" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="52" y="182" width="12" height="10" rx="3"/>
+        <rect class="chair" x="76" y="182" width="12" height="10" rx="3"/>
+        <rect class="chair" x="100" y="182" width="12" height="10" rx="3"/>
+        <rect class="chair" x="38" y="158" width="10" height="18" rx="3"/>
+        <rect class="chair" x="116" y="158" width="10" height="18" rx="3"/>
+        <rect class="surface" x="50" y="156" width="64" height="24" rx="4"/>
+        <text class="label" x="82" y="169">M8</text>
+      </g>
+
+      <!-- T9: rect 4-seat -->
+      <g class="table-group reserved" id="t9" onclick="selectTable(this,'Mesa 9','4 personas')">
+        <rect class="chair" x="168" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="194" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="168" y="182" width="14" height="10" rx="3"/>
+        <rect class="chair" x="194" y="182" width="14" height="10" rx="3"/>
+        <rect class="surface" x="160" y="156" width="56" height="24" rx="4"/>
+        <text class="label" x="188" y="169">M9</text>
+      </g>
+
+      <!-- T10: oval 4-seat -->
+      <g class="table-group" id="t10" onclick="selectTable(this,'Mesa 10','4 personas')">
+        <rect class="chair" x="272" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="298" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="272" y="184" width="14" height="10" rx="3"/>
+        <rect class="chair" x="298" y="184" width="14" height="10" rx="3"/>
+        <ellipse class="surface" cx="291" cy="168" rx="32" ry="16"/>
+        <text class="label" x="291" y="169">M10</text>
+      </g>
+
+      <!-- T11: oval 6-seat -->
+      <g class="table-group" id="t11" onclick="selectTable(this,'Mesa 11','6 personas')">
+        <rect class="chair" x="368" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="394" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="420" y="144" width="14" height="10" rx="3"/>
+        <rect class="chair" x="368" y="184" width="14" height="10" rx="3"/>
+        <rect class="chair" x="394" y="184" width="14" height="10" rx="3"/>
+        <rect class="chair" x="420" y="184" width="14" height="10" rx="3"/>
+        <ellipse class="surface" cx="402" cy="168" rx="42" ry="16"/>
+        <text class="label" x="402" y="169">M11</text>
+      </g>
+
+      <!-- T12: oval 8-seat -->
+      <g class="table-group reserved" id="t12" onclick="selectTable(this,'Mesa 12','8 personas')">
+        <rect class="chair" x="490" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="512" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="534" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="556" y="144" width="12" height="10" rx="3"/>
+        <rect class="chair" x="490" y="184" width="12" height="10" rx="3"/>
+        <rect class="chair" x="512" y="184" width="12" height="10" rx="3"/>
+        <rect class="chair" x="534" y="184" width="12" height="10" rx="3"/>
+        <rect class="chair" x="556" y="184" width="12" height="10" rx="3"/>
+        <rect class="chair" x="476" y="158" width="10" height="18" rx="3"/>
+        <rect class="chair" x="572" y="158" width="10" height="18" rx="3"/>
+        <ellipse class="surface" cx="529" cy="168" rx="56" ry="16"/>
+        <text class="label" x="529" y="169">M12</text>
+      </g>
+
+      <!-- T13: large round 8-seat -->
+      <g class="table-group" id="t13" onclick="selectTable(this,'Mesa 13','8 personas')">
+        <circle class="chair" cx="666" cy="142" r="7"/>
+        <circle class="chair" cx="690" cy="150" r="7"/>
+        <circle class="chair" cx="700" cy="174" r="7"/>
+        <circle class="chair" cx="690" cy="198" r="7"/>
+        <circle class="chair" cx="666" cy="206" r="7"/>
+        <circle class="chair" cx="642" cy="198" r="7"/>
+        <circle class="chair" cx="632" cy="174" r="7"/>
+        <circle class="chair" cx="642" cy="150" r="7"/>
+        <circle class="surface" cx="666" cy="174" r="28"/>
+        <text class="label" x="666" y="175">M13</text>
+      </g>
+
+      <!-- ═══ ROW 3 — large banquet tables ═══ -->
+
+      <!-- T14: long rect 8-seat -->
+      <g class="table-group" id="t14" onclick="selectTable(this,'Mesa 14','8 personas')">
+        <rect class="chair" x="42" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="62" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="82" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="102" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="42" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="62" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="82" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="102" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="28" y="268" width="10" height="28" rx="3"/>
+        <rect class="chair" x="118" y="268" width="10" height="28" rx="3"/>
+        <rect class="surface" x="40" y="268" width="78" height="28" rx="4"/>
+        <text class="label" x="79" y="283">M14</text>
+      </g>
+
+      <!-- T15: long rect 6-seat -->
+      <g class="table-group reserved" id="t15" onclick="selectTable(this,'Mesa 15','6 personas')">
+        <rect class="chair" x="178" y="256" width="14" height="10" rx="3"/>
+        <rect class="chair" x="204" y="256" width="14" height="10" rx="3"/>
+        <rect class="chair" x="230" y="256" width="14" height="10" rx="3"/>
+        <rect class="chair" x="178" y="296" width="14" height="10" rx="3"/>
+        <rect class="chair" x="204" y="296" width="14" height="10" rx="3"/>
+        <rect class="chair" x="230" y="296" width="14" height="10" rx="3"/>
+        <rect class="surface" x="170" y="268" width="82" height="28" rx="4"/>
+        <text class="label" x="211" y="283">M15</text>
+      </g>
+
+      <!-- T16: oval banquet -->
+      <g class="table-group" id="t16" onclick="selectTable(this,'Mesa 16','8 personas')">
+        <rect class="chair" x="308" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="328" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="348" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="368" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="308" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="328" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="348" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="368" y="296" width="12" height="10" rx="3"/>
+        <ellipse class="surface" cx="345" cy="282" rx="46" ry="18"/>
+        <text class="label" x="345" y="283">M16</text>
+      </g>
+
+      <!-- T17: wide oval 10-seat -->
+      <g class="table-group" id="t17" onclick="selectTable(this,'Mesa 17','10 personas')">
+        <rect class="chair" x="454" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="474" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="494" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="514" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="534" y="256" width="12" height="10" rx="3"/>
+        <rect class="chair" x="454" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="474" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="494" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="514" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="534" y="296" width="12" height="10" rx="3"/>
+        <rect class="chair" x="440" y="268" width="10" height="28" rx="3"/>
+        <rect class="chair" x="550" y="268" width="10" height="28" rx="3"/>
+        <ellipse class="surface" cx="500" cy="282" rx="62" ry="18"/>
+        <text class="label" x="500" y="283">M17</text>
+      </g>
+
+      <!-- T18: large round 10-seat -->
+      <g class="table-group reserved" id="t18" onclick="selectTable(this,'Mesa 18','10 personas')">
+        <circle class="chair" cx="660" cy="254" r="7"/>
+        <circle class="chair" cx="682" cy="260" r="7"/>
+        <circle class="chair" cx="698" cy="276" r="7"/>
+        <circle class="chair" cx="700" cy="298" r="7"/>
+        <circle class="chair" cx="690" cy="316" r="7"/>
+        <circle class="chair" cx="672" cy="322" r="7"/>
+        <circle class="chair" cx="650" cy="322" r="7"/>
+        <circle class="chair" cx="632" cy="316" r="7"/>
+        <circle class="chair" cx="622" cy="298" r="7"/>
+        <circle class="chair" cx="626" cy="276" r="7"/>
+        <circle class="surface" cx="661" cy="290" r="32"/>
+        <text class="label" x="661" y="291">M18</text>
+      </g>
+
+      <!-- ═══ ROW 4 — booth / sofa tables ═══ -->
+      <text class="section-label" x="430" y="375">ZONA BOOTH</text>
+
+      <!-- B1 -->
+      <g class="table-group" id="b1" onclick="selectTable(this,'Booth 1','2-4 personas')">
+        <!-- back sofa -->
+        <rect class="chair" x="50" y="390" width="60" height="14" rx="5"/>
+        <!-- side arms -->
+        <rect class="chair" x="44" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="106" y="404" width="10" height="40" rx="4"/>
+        <!-- table -->
+        <rect class="surface" x="56" y="408" width="48" height="28" rx="4"/>
+        <!-- front bench -->
+        <rect class="chair" x="50" y="440" width="60" height="12" rx="5"/>
+        <text class="label" x="80" y="423">B1</text>
+      </g>
+
+      <!-- B2 oval booth -->
+      <g class="table-group reserved" id="b2" onclick="selectTable(this,'Booth 2','2-4 personas')">
+        <rect class="chair" x="170" y="390" width="60" height="14" rx="5"/>
+        <rect class="chair" x="164" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="226" y="404" width="10" height="40" rx="4"/>
+        <ellipse class="surface" cx="200" cy="422" rx="28" ry="16"/>
+        <rect class="chair" x="170" y="440" width="60" height="12" rx="5"/>
+        <text class="label" x="200" y="423">B2</text>
+      </g>
+
+      <!-- B3 wide booth -->
+      <g class="table-group" id="b3" onclick="selectTable(this,'Booth 3','4-6 personas')">
+        <rect class="chair" x="290" y="390" width="80" height="14" rx="5"/>
+        <rect class="chair" x="284" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="366" y="404" width="10" height="40" rx="4"/>
+        <rect class="surface" x="294" y="408" width="68" height="28" rx="4"/>
+        <rect class="chair" x="290" y="440" width="80" height="12" rx="5"/>
+        <text class="label" x="328" y="423">B3</text>
+      </g>
+
+      <!-- B4 wide oval booth -->
+      <g class="table-group" id="b4" onclick="selectTable(this,'Booth 4','4-6 personas')">
+        <rect class="chair" x="420" y="390" width="80" height="14" rx="5"/>
+        <rect class="chair" x="414" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="496" y="404" width="10" height="40" rx="4"/>
+        <ellipse class="surface" cx="460" cy="422" rx="40" ry="16"/>
+        <rect class="chair" x="420" y="440" width="80" height="12" rx="5"/>
+        <text class="label" x="460" y="423">B4</text>
+      </g>
+
+      <!-- B5 extra wide booth -->
+      <g class="table-group reserved" id="b5" onclick="selectTable(this,'Booth 5','6-8 personas')">
+        <rect class="chair" x="550" y="390" width="100" height="14" rx="5"/>
+        <rect class="chair" x="544" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="646" y="404" width="10" height="40" rx="4"/>
+        <rect class="surface" x="554" y="408" width="88" height="28" rx="4"/>
+        <rect class="chair" x="550" y="440" width="100" height="12" rx="5"/>
+        <text class="label" x="598" y="423">B5</text>
+      </g>
+
+      <!-- B6 extra wide oval booth -->
+      <g class="table-group" id="b6" onclick="selectTable(this,'Booth 6','6-8 personas')">
+        <rect class="chair" x="690" y="390" width="100" height="14" rx="5"/>
+        <rect class="chair" x="684" y="404" width="10" height="40" rx="4"/>
+        <rect class="chair" x="786" y="404" width="10" height="40" rx="4"/>
+        <ellipse class="surface" cx="740" cy="422" rx="52" ry="16"/>
+        <rect class="chair" x="690" y="440" width="100" height="12" rx="5"/>
+        <text class="label" x="740" y="423">B6</text>
+      </g>
+
+      <!-- floor border -->
+      <rect x="8" y="8" width="844" height="560" rx="12" fill="none" stroke="#ddd" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+    </svg>
+  </div>
+
+  <!-- Info panel -->
+  <div class="info-panel" id="infoPanel">
+    <div class="info-text">
+      <h3 id="panelName">—</h3>
+      <p id="panelCap">—</p>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn-confirm" onclick="confirmTable()" style="background:#4caf50">Confirmar selección</button>
+      <button class="btn-confirm" onclick="clearSelection()" style="background:#888">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let selected = null;
+
+  function selectTable(el, name, cap) {
+    if (el.classList.contains('reserved')) return; // can't select reserved
+
+    if (selected) {
+      selected.classList.remove('selected');
+    }
+    if (selected === el) {
+      selected = null;
+      document.getElementById('infoPanel').classList.remove('visible');
+      return;
+    }
+    el.classList.add('selected');
+    selected = el;
+    document.getElementById('panelName').textContent = name;
+    document.getElementById('panelCap').textContent = 'Capacidad: ' + cap + ' · Estado: Disponible';
+    document.getElementById('infoPanel').classList.add('visible');
+  }
+
+  function clearSelection() {
+    if (selected) { selected.classList.remove('selected'); selected = null; }
+    document.getElementById('infoPanel').classList.remove('visible');
+  }
+
+  function confirmTable() {
+    if (!selected) return;
+    const name = document.getElementById('panelName').textContent;
+    alert('✅ ' + name + ' seleccionada.\nSerás redirigido al formulario de reserva.');
+    clearSelection();
+  }
+</script>
+
+</body>
+</html>
