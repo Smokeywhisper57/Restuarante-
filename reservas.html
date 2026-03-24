@@ -7,12 +7,25 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet" />
+    <link rel="stylesheet" href="CSS/Styles.css" />
     <link rel="stylesheet" href="CSS/reservas.css" />
 </head>
 
 <body>
 
-<div class="top-bar">Nombre del restaurante</div>
+<header>
+  <div class="logo">Yucatán Restaurante</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="gestordemesas.html">Mesas</a>
+    <a href="infocliente.html">Clientes</a>
+    <a href="loginadministrador.html">Admin</a>
+  </nav>
+</header>
+
+<div class="top-bar">Yucatán Restaurante</div>
 
 <div class="page">
 
@@ -69,27 +82,106 @@
         <label>Aquí para añadir un mensaje u observación</label>
         <textarea id="mensaje" name="mensaje" placeholder="Ej. alergia a nueces, silla para bebé, ocasión especial…"></textarea>
       </div>
-      <button class="btn-mapa" type="button" onclick="openMap()">Visualizar Mapa</button>
+      <div class="mesa-info" id="mesa-seleccionada-info" style="margin-top: 10px; font-weight: bold; color: var(--brown-dark);">
+        Ninguna mesa seleccionada (puedes elegir una en el mapa)
+      </div>
+      <button class="btn-mapa" type="button" onclick="openMap()">Seleccionar Mesa en Mapa</button>
     </div>
 
     <div class="footer-row">
-      <button class="btn-siguiente" type="button" onclick="siguiente()">Siguiente</button>
+      <button class="btn-siguiente" type="button" onclick="siguiente()">Confirmar Reserva</button>
     </div>
   </div>
 
 </div>
 
 <script>
+  // Verificar sesión de usuario
+  const sessionData = sessionStorage.getItem('user_session');
+  if (!sessionData) {
+    alert('Debes iniciar sesión para realizar una reservación.');
+    window.location.href = 'loginusuario.html';
+  }
+  const user = JSON.parse(sessionData);
+
+  // Establecer fecha mínima como hoy y cargar datos guardados
+  document.addEventListener('DOMContentLoaded', () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('fecha').setAttribute('min', today);
+    
+    // Auto-rellenar datos del usuario logueado si el formulario está vacío
+    if (!sessionStorage.getItem('reserva_nombre')) {
+      document.getElementById('nombre').value = user.nombre || '';
+      document.getElementById('correo').value = user.email || '';
+      document.getElementById('telefono').value = user.telefono || '';
+    }
+    
+    cargarDatosGuardados();
+  });
+
+  // Guardar datos cada vez que cambien los campos
+  const inputs = ['fecha', 'nombre', 'hora', 'correo', 'comensales', 'telefono', 'mensaje'];
+  inputs.forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      const val = document.getElementById(id).value;
+      sessionStorage.setItem('reserva_' + id, val);
+    });
+  });
+
+  function cargarDatosGuardados() {
+    // 1. Cargar desde sessionStorage primero
+    inputs.forEach(id => {
+      const savedVal = sessionStorage.getItem('reserva_' + id);
+      if (savedVal !== null) {
+        document.getElementById(id).value = savedVal;
+      }
+    });
+
+    // 2. Sobrescribir con los datos de la URL (si vienen del mapa de mesas)
+    const urlParams = new URLSearchParams(window.location.search);
+    const fUrl = urlParams.get('fecha');
+    const hUrl = urlParams.get('hora');
+    
+    if (fUrl) {
+      document.getElementById('fecha').value = fUrl;
+      sessionStorage.setItem('reserva_fecha', fUrl);
+    }
+    if (hUrl) {
+      document.getElementById('hora').value = hUrl;
+      sessionStorage.setItem('reserva_hora', hUrl);
+    }
+  }
+
+  function limpiarDatosGuardados() {
+    inputs.forEach(id => sessionStorage.removeItem('reserva_' + id));
+  }
+
+  // Obtener mesa_id de la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const mesa_id = urlParams.get('mesa_id');
+
+  if (mesa_id) {
+    document.getElementById('mesa-seleccionada-info').textContent = 'Mesa seleccionada: #' + mesa_id;
+  }
+
   function changeGuests(delta) {
     const el = document.getElementById('comensales');
     let v = parseInt(el.value) + delta;
     if (v < 1) v = 1;
     if (v > 20) v = 20;
     el.value = v;
+    // Guardar también al usar los botones +/-
+    sessionStorage.setItem('reserva_comensales', el.value);
   }
 
   function openMap() {
-    window.open('https://www.google.com/maps/search/Hidalgo+94+Xalapa+Veracruz', '_blank');
+    const fecha = document.getElementById('fecha').value;
+    const hora = document.getElementById('hora').value;
+    let url = 'gestordemesas.html';
+    if (fecha && hora) {
+      url += `?fecha=${fecha}&hora=${hora}`;
+    }
+    window.location.href = url;
   }
 
   function siguiente() {
@@ -103,7 +195,68 @@
       alert('Por favor completa todos los campos obligatorios.');
       return;
     }
-    alert(`¡Reserva registrada!\n\nNombre: ${nombre}\nFecha: ${fecha}\nHora: ${hora}\nComensales: ${document.getElementById('comensales').value}`);
+
+    // --- VALIDACIÓN DE HORARIOS ---
+    // Usamos T00:00:00 para evitar desfases de zona horaria al obtener el día
+    const fechaObj = new Date(fecha + 'T00:00:00');
+    const diaSemana = fechaObj.getDay(); // 0=Dom, 1=Lun...
+    const [hStr, mStr] = hora.split(':');
+    const hNum = parseInt(hStr);
+    const mNum = parseInt(mStr);
+    const horaTotal = hNum + (mNum / 60);
+
+    let horarioValido = false;
+    let mensajeError = "";
+
+    if (diaSemana === 0) { // Domingo: 2 pm a 7 pm (14:00 a 19:00)
+      if (horaTotal >= 14 && horaTotal <= 19) {
+        horarioValido = true;
+      } else {
+        mensajeError = "Los domingos el restaurante abre de 2:00 PM a 7:00 PM.";
+      }
+    } else { // Lunes a Sábado: 2 pm a 12 am (14:00 a 00:00)
+      // Nota: Si es medianoche (00:00), lo tratamos como el final del día
+      if (horaTotal >= 14 || (hNum === 0 && mNum === 0)) {
+        horarioValido = true;
+      } else {
+        mensajeError = "De lunes a sábado el restaurante abre de 2:00 PM a 12:00 AM.";
+      }
+    }
+
+    if (!horarioValido) {
+      alert("❌ Fuera de horario: " + mensajeError);
+      return;
+    }
+    // ------------------------------
+
+    const comensales = parseInt(document.getElementById('comensales').value || '1', 10);
+    const fecha_hora = `${fecha} ${hora}:00`;
+    const notas = document.getElementById('mensaje').value.trim() || null;
+    
+    fetch('/api/reservas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre,
+        email: correo,
+        telefono,
+        fecha_hora,
+        numero_personas: comensales,
+        notas,
+        mesa_id: mesa_id ? parseInt(mesa_id) : null
+      })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.ok) {
+        alert(`✅ Reserva creada.\nFolio: ${data.folio}\nCliente: ${nombre}`);
+        limpiarDatosGuardados(); // Limpiar después de éxito
+        window.location.href = 'infocliente.html';
+      } else {
+        alert('Ocurrió un error al registrar la reserva: ' + (data.error || 'Desconocido'));
+      }
+    })
+    .catch(() => alert('No se pudo conectar con el servidor.'));
   }
 </script>
 

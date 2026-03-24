@@ -1,111 +1,105 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurante Gourmet - Menú</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="css/menu.css">
-    <link rel="icon" href="image/Icono.png" type="image/png">
-</head>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/Styles.css">
+  <link rel="stylesheet" href="CSS/index.css">
+  <link rel="icon" href="image/Icono.png" type="image/png">
+  </head>
 <body>
+  <header>
+    <div class="logo">Yucatán Restaurante</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="menu.html">Menú</a>
+      <a href="reservas.html">Reservas</a>
+      <a href="gestordemesas.html">Mesas</a>
+      <a href="infocliente.html">Clientes</a>
+      <a href="loginadministrador.html">Admin</a>
+    </nav>
+  </header>
 
-    <!-- HEADER -->
-    <header>
-        <div class="logo">Nombre del Restaurante</div>
-        <nav>
-            <a href="#">Nosotros</a>
-            <a href="#">Menú</a>
-            <a href="#">Avisos</a>
-            <a href="#">Contacto</a>
-        </nav>
-    </header>
+  <div class="hero">
+    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80" alt="Plato gourmet del restaurante"/>
+  </div>
 
-    <!-- MAIN GRID -->
-    <div class="main-grid">
+  <div class="title-block">
+    <div class="title-ornament">
+      <span class="ornament-line"></span>
+      <span class="ornament-icon">✦ ✦ ✦</span>
+      <span class="ornament-line right"></span>
+    </div>
+    <h1 class="menu-title">Nuestro Menú</h1>
+    <div class="subtitle-line"></div>
+  </div>
 
-        <!-- Hero image -->
-        <div class="hero">
-            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=900&q=80"
-                alt="Platillos del restaurante" />
-        </div>
+  <p class="intro">
+    En nombre del restaurante tenemos una gran pasión por los ingredientes frescos y de la más alta calidad,
+    esa pasión es la que nos impulsa a crear magia al combinar sabores con el propósito de que todo lo que
+    llegue a su mesa supere sus expectativas.
+  </p>
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <a href="reservas.html">
-                <button class="btn-reservar">Reservar Ya</button>
-            </a>
-            <!-- Mini Calendar -->
-            <div class="calendar">
-                <div class="cal-header">
-                    <span>LUN</span><span>MAR</span><span>MIÉ</span><span>JUE</span><span>VIE</span>
-                    <span class="saturday">SÁB</span><span class="sunday">DOM</span>
-                </div>
-                <div class="cal-days">
-                    <span class="empty"></span><span class="empty"></span><span class="empty"></span>
-                    <span>1</span><span>2</span><span class="saturday">3</span><span class="sunday">4</span>
-                    <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
-                    <span class="saturday">10</span><span class="sunday">11</span>
-                    <span>12</span><span>13</span><span>14</span><span>15</span><span>16</span>
-                    <span class="saturday">17</span><span class="sunday today">18</span>
-                    <span>19</span><span>20</span><span>21</span><span>22</span><span>23</span>
-                    <span class="saturday">24</span><span class="sunday">25</span>
-                    <span>26</span><span>27</span><span>28</span><span>29</span><span>30</span>
-                    <span class="empty"></span><span class="empty"></span>
-                </div>
-            </div>
-
-            <!-- Avisos -->
-            <div class="avisos-box">
-                <h3>Avisos</h3>
-            </div>
-        </div>
+  <div class="menu-grid">
+    <div class="menu-card">
+      <div class="card-header"><h2>Nos reconocen por nuestros platillos</h2></div>
+      <div class="dish">
+        <div class="dish-name">Pulpo</div>
+        <ul class="dish-variants">
+          <li>A las brasas</li>
+          <li>Al ajillo, Picosito</li>
+          <li>Acompañado de papas al romero, ajo y vino blanco</li>
+        </ul>
+      </div>
+      <div class="gold-divider"></div>
+      <div class="dish">
+        <div class="dish-name">Tiradito de Salmón</div>
+        <p class="dish-desc">Delicioso, sazonado con limón, ponzu, serrano, cilantro,<br>cebolla morada, apio,
+          aguacate y aceite de trufa</p>
+      </div>
+      <div class="gold-divider"></div>
+      <div class="dish">
+        <div class="dish-name">Tiradito de Atún Importado</div>
+        <p class="dish-desc">Delicioso, sazonado con limón, ponzu, serrano, cilantro,<br>cebolla morada y aceite de trufa</p>
+      </div>
+      <div class="gold-divider"></div>
+      <div class="dish"><div class="dish-name">Carpaccio de Salmón</div></div>
     </div>
 
-    <!-- CARDS ROW -->
-    <div class="cards-row">
-        <a href="index.html">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=400&q=80" alt="Menú" />
-                <div class="card-label">Menú</div>
-            </div>
-        </a>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&q=80" alt="Bebidas" />
-            <div class="card-label">Bebidas</div>
+    <div class="menu-card">
+      <div class="card-header"><h2>Sopas</h2></div>
+      <div class="card-with-image">
+        <div class="card-content">
+          <div class="dish"><div class="dish-name">Crema de Almeja, Papa y Tocino</div></div>
+          <div class="gold-divider"></div>
+          <div class="dish">
+            <div class="dish-name">Jugo de Carne</div>
+            <p class="dish-desc">(Clarificado, no espeso)</p>
+            <ul class="dish-variants">
+              <li>Con Ostión</li>
+              <li>Con Camarón</li>
+              <li>Con Camarón y Ostión</li>
+            </ul>
+          </div>
+          <div class="gold-divider"></div>
+          <div class="dish">
+            <div class="dish-name">Chilpachole Picosito</div>
+            <ul class="dish-variants">
+              <li>Con Ostión</li>
+              <li>Con Camarón</li>
+              <li>Con Robalo</li>
+            </ul>
+          </div>
         </div>
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&q=80" alt="Postres" />
-            <div class="card-label">Postres</div>
+        <div class="card-image">
+          <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&q=80" alt="Sopa del restaurante"/>
         </div>
-        <div class="card-avisos">
-            <h3>Avisos</h3>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <div>
-            <h4>Dirección</h4>
-            <p>Hidalgo # 94<br>Col. Centro, 91000<br>Xalapa, Veracruz.</p>
-        </div>
-        <div>
-            <h4>Contacto</h4>
-            <p>228 812 29 76<br>228 376 15 32<br><a href="mailto:contacto@nombre.mx">contacto@nombre.mx</a></p>
-        </div>
-        <div>
-            <div class="horarios-title">Horarios</div>
-            <p>
-                Lun · Mar · Miér: de 2 pm a 12 pm<br>
-                Jue · Vie · Sáb: de 2 pm a 12 am<br>
-                Dom: de 2 pm a 7 pm
-            </p>
-        </div>
-    </footer>
-
+  <div class="footer-ornament">✦  ✦  ✦</div>
 </body>
-
 </html>

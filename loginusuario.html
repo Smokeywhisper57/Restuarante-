@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login de Usuario - Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/Styles.css">
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --brown: #3b2112;
+      --brown-mid: #5c3d2e;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --border: #e2d9cf;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: var(--brown);
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .login-card {
+      background: var(--white);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(59,33,18,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 30px;
+      color: var(--brown);
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      color: var(--brown-mid);
+    }
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: var(--gold);
+    }
+    .btn-login {
+      width: 100%;
+      padding: 14px;
+      background: var(--brown);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-login:hover {
+      background: #2a160a;
+      transform: translateY(-2px);
+    }
+    .register-link {
+      margin-top: 25px;
+      font-size: 0.9rem;
+    }
+    .register-link a {
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .register-link a:hover {
+      text-decoration: underline;
+    }
+    .error-msg {
+      color: #e53e2f;
+      font-size: 0.85rem;
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Yucatán Restaurante</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="gestordemesas.html">Mesas</a>
+    <a href="infocliente.html">Clientes</a>
+    <a href="loginadministrador.html">Admin</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <div class="login-card">
+    <h1>Iniciar Sesión</h1>
+    <div class="form-group">
+      <label>Correo Electrónico</label>
+      <input type="email" id="email" placeholder="tu@correo.com">
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+    <button class="btn-login" onclick="login()">Entrar</button>
+    
+    <div id="error" class="error-msg">Credenciales incorrectas. Intenta de nuevo.</div>
+
+    <div class="register-link">
+      ¿Eres nuevo usuario? <br>
+      <a href="registrousuario.html">Regístrate aquí</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function login() {
+    const email = document.getElementById('email').value;
+    const contrasena = document.getElementById('password').value;
+    const errorDiv = document.getElementById('error');
+
+    if (!email || !contrasena) {
+      alert('Por favor completa todos los campos');
+      return;
+    }
+
+    fetch('/api/clientes/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, contrasena })
+    })
+    .then(r => r.json().then(data => ({ status: r.status, data })))
+    .then(({ status, data }) => {
+      if (status === 200 && data.ok) {
+        // Guardar sesión del usuario
+        sessionStorage.setItem('user_session', JSON.stringify(data.user));
+        window.location.href = 'reservas.html';
+      } else {
+        errorDiv.textContent = data.error || 'Error al iniciar sesión';
+        errorDiv.style.display = 'block';
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Error de conexión con el servidor');
+    });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Datos – Yucatán Restaurante</title>
+  <link rel="stylesheet" href="CSS/Styles.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --white: #ffffff;
+      --brown: #3b2112;
+      --brown-mid: #5c3d2e;
+      --gold: #c9a84c;
+      --border: #e2d9cf;
+    }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--brown); margin: 0; display: flex; flex-direction: column; min-height: 100vh; }
+    .page { max-width: 600px; margin: 40px auto; padding: 20px; width: 100%; box-sizing: border-box; }
+    h1 { font-family: 'Playfair Display', serif; text-align: center; margin-bottom: 30px; }
+    .profile-card { background: var(--white); border-radius: 20px; padding: 40px; box-shadow: 0 10px 30px rgba(59,33,18,0.1); border: 1px solid var(--border); }
+    .form-group { margin-bottom: 20px; text-align: left; }
+    label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; color: var(--brown-mid); letter-spacing: 1px; }
+    input { width: 100%; padding: 12px 15px; border: 1px solid var(--border); border-radius: 10px; font-family: inherit; font-size: 1rem; box-sizing: border-box; transition: border-color 0.2s; }
+    input:focus { border-color: var(--gold); outline: none; }
+    input:disabled { background: #f9f7f4; color: #a89a90; cursor: not-allowed; }
+    .btn-save { width: 100%; padding: 14px; background: var(--brown); color: var(--white); border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 20px; transition: transform 0.2s, background 0.2s; font-size: 1rem; }
+    .btn-save:hover { background: #2a160a; transform: translateY(-2px); }
+    .logout-btn { display: block; text-align: center; margin-top: 25px; color: #e53e2f; text-decoration: none; font-weight: 700; font-size: 0.9rem; }
+    .logout-btn:hover { text-decoration: underline; }
+    .grid-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    @media (max-width: 480px) { .grid-fields { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Yucatán Restaurante</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="gestordemesas.html">Mesas</a>
+    <a href="infocliente.html" style="color:var(--gold)">Mis Datos</a>
+    <a href="loginadministrador.html">Admin</a>
+  </nav>
+</header>
+
+<div class="page">
+  <h1>Mi Perfil</h1>
+  <div class="profile-card">
+    <div class="grid-fields">
+      <div class="form-group">
+        <label>Primer Nombre</label>
+        <input type="text" id="nombre1" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label>Segundo Nombre</label>
+        <input type="text" id="nombre2" placeholder="(Opcional)">
+      </div>
+    </div>
+    <div class="grid-fields">
+      <div class="form-group">
+        <label>Apellido Paterno</label>
+        <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
+      </div>
+      <div class="form-group">
+        <label>Apellido Materno</label>
+        <input type="text" id="apellido_materno" placeholder="Apellido materno">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Correo Electrónico (No modificable)</label>
+      <input type="email" id="email" disabled>
+    </div>
+    <div class="form-group">
+      <label>Teléfono</label>
+      <input type="tel" id="telefono" placeholder="Tu teléfono">
+    </div>
+    <div class="form-group">
+      <label>Nueva Contraseña (Opcional)</label>
+      <input type="password" id="password" placeholder="••••••••">
+    </div>
+    <button class="btn-save" onclick="guardarCambios()">Guardar Cambios</button>
+    <a href="#" class="logout-btn" onclick="logout()">Cerrar Sesión</a>
+  </div>
+</div>
+
+<script>
+  let userData = null;
+
+  function init() {
+    const session = sessionStorage.getItem('user_session');
+    if (!session) {
+      window.location.href = 'loginusuario.html';
+      return;
+    }
+    userData = JSON.parse(session);
+    
+    // Cargar datos actuales
+    document.getElementById('nombre1').value = userData.nombre1 || '';
+    document.getElementById('nombre2').value = userData.nombre2 || '';
+    document.getElementById('apellido_paterno').value = userData.apellido_paterno || '';
+    document.getElementById('apellido_materno').value = userData.apellido_materno || '';
+    document.getElementById('email').value = userData.email || '';
+    document.getElementById('telefono').value = userData.telefono || '';
+  }
+
+  async function guardarCambios() {
+    const payload = {
+      nombre1: document.getElementById('nombre1').value.trim(),
+      nombre2: document.getElementById('nombre2').value.trim(),
+      apellido_paterno: document.getElementById('apellido_paterno').value.trim(),
+      apellido_materno: document.getElementById('apellido_materno').value.trim(),
+      telefono: document.getElementById('telefono').value.trim(),
+      contrasena: document.getElementById('password').value
+    };
+
+    if (!payload.nombre1 || !payload.apellido_paterno || !payload.apellido_materno) {
+      alert('Los nombres y apellidos son obligatorios.');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/api/clientes/${userData.idCliente}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (data.ok) {
+        alert('Datos actualizados con éxito.');
+        // Actualizar sesión local
+        const updatedUser = { ...userData, ...payload };
+        delete updatedUser.contrasena; // No guardar password en session
+        sessionStorage.setItem('user_session', JSON.stringify(updatedUser));
+      } else {
+        alert('Error: ' + data.error);
+      }
+    } catch (err) {
+      alert('Error de conexión.');
+    }
+  }
+
+  function logout() {
+    sessionStorage.removeItem('user_session');
+    window.location.href = 'index.html';
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>

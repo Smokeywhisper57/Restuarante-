@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro de Usuario - Restaurante</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/Styles.css">
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --brown: #3b2112;
+      --brown-mid: #5c3d2e;
+      --gold: #c9a84c;
+      --white: #ffffff;
+      --border: #e2d9cf;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--cream);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      color: var(--brown);
+    }
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+    .register-card {
+      background: var(--white);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(59,33,18,0.1);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 30px;
+      color: var(--brown);
+    }
+    .form-group {
+      text-align: left;
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      color: var(--brown-mid);
+    }
+    input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus {
+      border-color: var(--gold);
+    }
+    .btn-register {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold);
+      color: var(--white);
+      border: none;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    .btn-register:hover {
+      background: #b08d3a;
+      transform: translateY(-2px);
+    }
+    .login-link {
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+    .login-link a {
+      color: var(--brown);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Yucatán Restaurante</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="gestordemesas.html">Mesas</a>
+    <a href="infocliente.html">Clientes</a>
+    <a href="loginadministrador.html">Admin</a>
+  </nav>
+</header>
+
+<div class="main-content">
+  <div class="register-card">
+    <h1>Crear Cuenta</h1>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Nombre(s)</label>
+        <input type="text" id="nombre1" placeholder="Ej. Juan">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Segundo Nombre (Opcional)</label>
+        <input type="text" id="nombre2" placeholder="Ej. Antonio">
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Apellido Paterno</label>
+        <input type="text" id="apellido_paterno" placeholder="Ej. Pérez">
+      </div>
+      <div class="form-group" style="margin-bottom: 0;">
+        <label>Apellido Materno</label>
+        <input type="text" id="apellido_materno" placeholder="Ej. García">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Correo Electrónico</label>
+      <input type="email" id="email" placeholder="tu@correo.com">
+    </div>
+    <div class="form-group">
+      <label>Teléfono (Opcional)</label>
+      <input type="tel" id="telefono" placeholder="2281234567">
+    </div>
+    <div class="form-group">
+      <label>Contraseña</label>
+      <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+    </div>
+    <button class="btn-register" onclick="registrar()">Registrarme</button>
+
+    <div class="login-link">
+      ¿Ya tienes cuenta? <a href="loginusuario.html">Inicia sesión aquí</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function registrar() {
+    const nombre1 = document.getElementById('nombre1').value.trim();
+    const nombre2 = document.getElementById('nombre2').value.trim();
+    const apellido_paterno = document.getElementById('apellido_paterno').value.trim();
+    const apellido_materno = document.getElementById('apellido_materno').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const contrasena = document.getElementById('password').value;
+
+    if (!nombre1 || !apellido_paterno || !apellido_materno || !email || !contrasena) {
+      alert('Por favor, completa todos los campos obligatorios.');
+      return;
+    }
+
+    fetch('/api/clientes/registro', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre1, nombre2, apellido_paterno, apellido_materno, email, telefono, contrasena })
+    })
+    .then(r => r.json())
+    .then(data => {
+      if (data.ok) {
+        alert('Registro exitoso. Ahora inicia sesión.');
+        window.location.href = 'loginusuario.html';
+      } else {
+        alert('Error: ' + data.error);
+      }
+    })
+    .catch(() => alert('Error de conexión.'));
+  }
+</script>
+
+</body>
+</html>

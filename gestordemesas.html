@@ -1,7 +1,3 @@
-
-Mapa mesas · HTML
-Copiar
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,14 +5,40 @@ Copiar
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Mapa de Mesas – Nombre del Restaurante</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="CSS/gestorreservas.css"/>
+  <link rel="stylesheet" href="CSS/Styles.css"/>
+  <link rel="stylesheet" href="CSS/gestordemesas.css"/>
 </head>
 <body>
 
-<div class="top-bar">Nombre del restaurante</div>
+<header>
+  <div class="logo">Yucatán Restaurante</div>
+  <nav>
+    <a href="index.html">Inicio</a>
+    <a href="menu.html">Menú</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="gestordemesas.html">Mesas</a>
+    <a href="infocliente.html">Clientes</a>
+    <a href="loginadministrador.html">Admin</a>
+  </nav>
+</header>
+
+<div class="top-bar">Yucatán Restaurante</div>
 
 <div class="page">
   <h1>Mapa De Mesas</h1>
+
+  <!-- Selector de Horario -->
+  <div class="time-selector" style="margin-bottom: 20px; display: flex; gap: 15px; align-items: center; justify-content: center; background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <label for="viewFecha" style="font-weight: bold; font-size: 0.8rem;">Fecha:</label>
+      <input type="date" id="viewFecha" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;"/>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 5px;">
+      <label for="viewHora" style="font-weight: bold; font-size: 0.8rem;">Hora:</label>
+      <input type="time" id="viewHora" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;"/>
+    </div>
+    <button onclick="syncMesas()" style="margin-top: 15px; background: var(--brown); color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer;">Ver disponibilidad</button>
+  </div>
 
   <div class="legend">
     <div class="legend-item"><div class="legend-dot dot-avail"></div> Disponible</div>
@@ -45,7 +67,7 @@ Copiar
       </g>
 
       <!-- T2: 4-seat square -->
-      <g class="table-group reserved" id="t2" onclick="selectTable(this,'Mesa 2','4 personas')">
+      <g class="table-group" id="t2" onclick="selectTable(this,'Mesa 2','4 personas')">
         <rect class="chair" x="163" y="38" width="14" height="10" rx="3"/>
         <rect class="chair" x="163" y="76" width="14" height="10" rx="3"/>
         <rect class="chair" x="140" y="52" width="10" height="20" rx="3"/>
@@ -65,7 +87,7 @@ Copiar
       </g>
 
       <!-- T4: round 4-seat -->
-      <g class="table-group reserved" id="t4" onclick="selectTable(this,'Mesa 4','4 personas')">
+      <g class="table-group" id="t4" onclick="selectTable(this,'Mesa 4','4 personas')">
         <circle class="chair" cx="348" cy="40" r="7"/>
         <circle class="chair" cx="348" cy="84" r="7"/>
         <circle class="chair" cx="326" cy="62" r="7"/>
@@ -101,7 +123,7 @@ Copiar
       </g>
 
       <!-- T7: round 6-seat large -->
-      <g class="table-group reserved" id="t7" onclick="selectTable(this,'Mesa 7','6 personas')">
+      <g class="table-group" id="t7" onclick="selectTable(this,'Mesa 7','6 personas')">
         <circle class="chair" cx="660" cy="36" r="7"/>
         <circle class="chair" cx="684" cy="44" r="7"/>
         <circle class="chair" cx="690" cy="72" r="7"/>
@@ -129,7 +151,7 @@ Copiar
       </g>
 
       <!-- T9: rect 4-seat -->
-      <g class="table-group reserved" id="t9" onclick="selectTable(this,'Mesa 9','4 personas')">
+      <g class="table-group" id="t9" onclick="selectTable(this,'Mesa 9','4 personas')">
         <rect class="chair" x="168" y="144" width="14" height="10" rx="3"/>
         <rect class="chair" x="194" y="144" width="14" height="10" rx="3"/>
         <rect class="chair" x="168" y="182" width="14" height="10" rx="3"/>
@@ -161,7 +183,7 @@ Copiar
       </g>
 
       <!-- T12: oval 8-seat -->
-      <g class="table-group reserved" id="t12" onclick="selectTable(this,'Mesa 12','8 personas')">
+      <g class="table-group" id="t12" onclick="selectTable(this,'Mesa 12','8 personas')">
         <rect class="chair" x="490" y="144" width="12" height="10" rx="3"/>
         <rect class="chair" x="512" y="144" width="12" height="10" rx="3"/>
         <rect class="chair" x="534" y="144" width="12" height="10" rx="3"/>
@@ -209,7 +231,7 @@ Copiar
       </g>
 
       <!-- T15: long rect 6-seat -->
-      <g class="table-group reserved" id="t15" onclick="selectTable(this,'Mesa 15','6 personas')">
+      <g class="table-group" id="t15" onclick="selectTable(this,'Mesa 15','6 personas')">
         <rect class="chair" x="178" y="256" width="14" height="10" rx="3"/>
         <rect class="chair" x="204" y="256" width="14" height="10" rx="3"/>
         <rect class="chair" x="230" y="256" width="14" height="10" rx="3"/>
@@ -253,7 +275,7 @@ Copiar
       </g>
 
       <!-- T18: large round 10-seat -->
-      <g class="table-group reserved" id="t18" onclick="selectTable(this,'Mesa 18','10 personas')">
+      <g class="table-group" id="t18" onclick="selectTable(this,'Mesa 18','10 personas')">
         <circle class="chair" cx="660" cy="254" r="7"/>
         <circle class="chair" cx="682" cy="260" r="7"/>
         <circle class="chair" cx="698" cy="276" r="7"/>
@@ -286,7 +308,7 @@ Copiar
       </g>
 
       <!-- B2 oval booth -->
-      <g class="table-group reserved" id="b2" onclick="selectTable(this,'Booth 2','2-4 personas')">
+      <g class="table-group" id="b2" onclick="selectTable(this,'Booth 2','2-4 personas')">
         <rect class="chair" x="170" y="390" width="60" height="14" rx="5"/>
         <rect class="chair" x="164" y="404" width="10" height="40" rx="4"/>
         <rect class="chair" x="226" y="404" width="10" height="40" rx="4"/>
@@ -316,7 +338,7 @@ Copiar
       </g>
 
       <!-- B5 extra wide booth -->
-      <g class="table-group reserved" id="b5" onclick="selectTable(this,'Booth 5','6-8 personas')">
+      <g class="table-group" id="b5" onclick="selectTable(this,'Booth 5','6-8 personas')">
         <rect class="chair" x="550" y="390" width="100" height="14" rx="5"/>
         <rect class="chair" x="544" y="404" width="10" height="40" rx="4"/>
         <rect class="chair" x="646" y="404" width="10" height="40" rx="4"/>
@@ -357,9 +379,13 @@ Copiar
 <script>
   let selected = null;
 
-  function selectTable(el, name, cap) {
-    if (el.classList.contains('reserved')) return; // can't select reserved
+  function mesaIdFromName(name) {
+    const m = name.match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : null;
+  }
 
+  function selectTable(el, name, cap) {
+    if (el.classList.contains('reserved')) return;
     if (selected) {
       selected.classList.remove('selected');
     }
@@ -380,12 +406,97 @@ Copiar
     document.getElementById('infoPanel').classList.remove('visible');
   }
 
+  // Cargar fecha y hora por defecto o de la URL
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const fUrl = urlParams.get('fecha');
+    const hUrl = urlParams.get('hora');
+
+    if (fUrl && hUrl) {
+      document.getElementById('viewFecha').value = fUrl;
+      document.getElementById('viewHora').value = hUrl;
+    } else {
+      const now = new Date();
+      document.getElementById('viewFecha').value = now.toISOString().split('T')[0];
+      const h = now.getHours().toString().padStart(2, '0');
+      const m = now.getMinutes().toString().padStart(2, '0');
+      document.getElementById('viewHora').value = `${h}:${m}`;
+    }
+    syncMesas();
+  });
+
+  function syncMesas() {
+    const fecha = document.getElementById('viewFecha').value;
+    const hora = document.getElementById('viewHora').value;
+    if (!fecha || !hora) return;
+
+    // --- VALIDACIÓN DE HORARIOS ---
+    const fechaObj = new Date(fecha + 'T00:00:00');
+    const diaSemana = fechaObj.getDay(); 
+    const [hStr, mStr] = hora.split(':');
+    const hNum = parseInt(hStr);
+    const mNum = parseInt(mStr);
+    const horaTotal = hNum + (mNum / 60);
+
+    let horarioValido = false;
+    let mensajeError = "";
+
+    if (diaSemana === 0) { // Domingo: 2 pm a 7 pm
+      if (horaTotal >= 14 && horaTotal <= 19) {
+        horarioValido = true;
+      } else {
+        mensajeError = "Los domingos el restaurante abre de 2:00 PM a 7:00 PM.";
+      }
+    } else { // Lunes a Sábado: 2 pm a 12 am
+      if (horaTotal >= 14 || (hNum === 0 && mNum === 0)) {
+        horarioValido = true;
+      } else {
+        mensajeError = "De lunes a sábado el restaurante abre de 2:00 PM a 12:00 AM.";
+      }
+    }
+
+    if (!horarioValido) {
+      alert("❌ Fuera de horario: " + mensajeError + "\nTodas las mesas se mostrarán como no disponibles.");
+      // Poner todas las mesas en rojo
+      document.querySelectorAll('.table-group').forEach(g => {
+        g.classList.add('reserved');
+      });
+      return;
+    }
+    // ------------------------------
+
+    fetch(`/api/mesas-disponibilidad?fecha_hora=${fecha} ${hora}:00`)
+      .then(r => r.json())
+      .then(data => {
+        data.forEach(m => {
+          // Buscamos por ID corregido (idMesa)
+          const g = document.getElementById('t' + m.idMesa) || document.getElementById('b' + (m.idMesa - 100));
+          if (g) {
+            g.classList.toggle('reserved', m.disponibilidad === 0);
+          }
+        });
+      })
+      .catch(err => console.error('Error sincronizando mesas:', err));
+  }
+
   function confirmTable() {
     if (!selected) return;
     const name = document.getElementById('panelName').textContent;
-    alert('✅ ' + name + ' seleccionada.\nSerás redirigido al formulario de reserva.');
-    clearSelection();
+    const id = mesaIdFromName(name);
+    const fecha = document.getElementById('viewFecha').value;
+    const hora = document.getElementById('viewHora').value;
+
+    if (!id) {
+      alert('Mesa no válida para reservar.');
+      return;
+    }
+
+    // No actualizamos diponibilidad aquí, solo redirigimos con la info
+    alert('✅ ' + name + ' seleccionada para el ' + fecha + ' a las ' + hora + '.\nCompleta tus datos para finalizar.');
+    window.location.href = `reservas.html?mesa_id=${id}&fecha=${fecha}&hora=${hora}`;
   }
+
+  document.addEventListener('DOMContentLoaded', syncMesas);
 </script>
 
 </body>

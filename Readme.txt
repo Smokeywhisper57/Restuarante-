@@ -3,3 +3,5 @@ git add .
 ## meter descripción
 git commit -m "estructura del proyecto"
 git push
+
+ npm.cmd start
