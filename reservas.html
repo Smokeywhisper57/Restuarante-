@@ -111,7 +111,10 @@
     
     // Auto-rellenar datos del usuario logueado si el formulario está vacío
     if (!sessionStorage.getItem('reserva_nombre')) {
-      document.getElementById('nombre').value = user.nombre || '';
+      const nombreCompleto = [user.nombre1, user.nombre2, user.apellido_paterno, user.apellido_materno]
+        .filter(part => part && part.trim() !== '')
+        .join(' ');
+      document.getElementById('nombre').value = nombreCompleto || '';
       document.getElementById('correo').value = user.email || '';
       document.getElementById('telefono').value = user.telefono || '';
     }
