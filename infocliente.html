@@ -52,34 +52,34 @@
     <div class="grid-fields">
       <div class="form-group">
         <label>Primer Nombre</label>
-        <input type="text" id="nombre1" placeholder="Tu nombre">
+        <input type="text" id="nombre1" placeholder="Tu nombre" maxlength="100">
       </div>
       <div class="form-group">
         <label>Segundo Nombre</label>
-        <input type="text" id="nombre2" placeholder="(Opcional)">
+        <input type="text" id="nombre2" placeholder="(Opcional)" maxlength="100">
       </div>
     </div>
     <div class="grid-fields">
       <div class="form-group">
         <label>Apellido Paterno</label>
-        <input type="text" id="apellido_paterno" placeholder="Apellido paterno">
+        <input type="text" id="apellido_paterno" placeholder="Apellido paterno" maxlength="100">
       </div>
       <div class="form-group">
         <label>Apellido Materno</label>
-        <input type="text" id="apellido_materno" placeholder="Apellido materno">
+        <input type="text" id="apellido_materno" placeholder="Apellido materno" maxlength="100">
       </div>
     </div>
     <div class="form-group">
       <label>Correo Electrónico (No modificable)</label>
-      <input type="email" id="email" disabled>
+      <input type="email" id="email" disabled maxlength="255">
     </div>
     <div class="form-group">
-      <label>Teléfono</label>
-      <input type="tel" id="telefono" placeholder="Tu teléfono">
+      <label>Teléfono (10 dígitos)</label>
+      <input type="tel" id="telefono" placeholder="Tu teléfono" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
     </div>
     <div class="form-group">
-      <label>Nueva Contraseña (Opcional)</label>
-      <input type="password" id="password" placeholder="••••••••">
+      <label>Nueva Contraseña (Opcional, mín. 6 carac.)</label>
+      <input type="password" id="password" placeholder="••••••••" maxlength="255">
     </div>
     <button class="btn-save" onclick="guardarCambios()">Guardar Cambios</button>
     <a href="#" class="logout-btn" onclick="logout()">Cerrar Sesión</a>
@@ -118,6 +118,16 @@
 
     if (!payload.nombre1 || !payload.apellido_paterno || !payload.apellido_materno) {
       alert('Los nombres y apellidos son obligatorios.');
+      return;
+    }
+
+    if (payload.telefono && payload.telefono.length !== 10) {
+      alert('El teléfono debe tener exactamente 10 dígitos.');
+      return;
+    }
+
+    if (payload.contrasena && payload.contrasena.length < 6) {
+      alert('La nueva contraseña debe tener al menos 6 caracteres.');
       return;
     }
 

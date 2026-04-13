@@ -119,34 +119,34 @@
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
       <div class="form-group" style="margin-bottom: 0;">
         <label>Nombre(s)</label>
-        <input type="text" id="nombre1" placeholder="Ej. Juan">
+        <input type="text" id="nombre1" placeholder="Ej. Juan" maxlength="100">
       </div>
       <div class="form-group" style="margin-bottom: 0;">
         <label>Segundo Nombre (Opcional)</label>
-        <input type="text" id="nombre2" placeholder="Ej. Antonio">
+        <input type="text" id="nombre2" placeholder="Ej. Antonio" maxlength="100">
       </div>
     </div>
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
       <div class="form-group" style="margin-bottom: 0;">
         <label>Apellido Paterno</label>
-        <input type="text" id="apellido_paterno" placeholder="Ej. Pérez">
+        <input type="text" id="apellido_paterno" placeholder="Ej. Pérez" maxlength="100">
       </div>
       <div class="form-group" style="margin-bottom: 0;">
         <label>Apellido Materno</label>
-        <input type="text" id="apellido_materno" placeholder="Ej. García">
+        <input type="text" id="apellido_materno" placeholder="Ej. García" maxlength="100">
       </div>
     </div>
     <div class="form-group">
       <label>Correo Electrónico</label>
-      <input type="email" id="email" placeholder="tu@correo.com">
+      <input type="email" id="email" placeholder="tu@correo.com" maxlength="255">
     </div>
     <div class="form-group">
-      <label>Teléfono (Opcional)</label>
-      <input type="tel" id="telefono" placeholder="2281234567">
+      <label>Teléfono (10 dígitos)</label>
+      <input type="tel" id="telefono" placeholder="2281234567" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
     </div>
     <div class="form-group">
-      <label>Contraseña</label>
-      <input type="password" id="password" placeholder="Mínimo 6 caracteres">
+      <label>Contraseña (mínimo 6 caracteres)</label>
+      <input type="password" id="password" placeholder="Mínimo 6 caracteres" maxlength="255">
     </div>
     <button class="btn-register" onclick="registrar()">Registrarme</button>
 
@@ -168,6 +168,23 @@
 
     if (!nombre1 || !apellido_paterno || !apellido_materno || !email || !contrasena) {
       alert('Por favor, completa todos los campos obligatorios.');
+      return;
+    }
+
+    // Validaciones adicionales
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert('Por favor, ingresa un correo electrónico válido.');
+      return;
+    }
+
+    if (telefono && telefono.length !== 10) {
+      alert('El teléfono debe tener exactamente 10 dígitos.');
+      return;
+    }
+
+    if (contrasena.length < 6) {
+      alert('La contraseña debe tener al menos 6 caracteres.');
       return;
     }
 
