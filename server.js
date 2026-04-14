@@ -209,8 +209,8 @@ app.get('/api/mesas-disponibilidad', async (req, res) => {
     const [reservas] = await pool.query(`
       SELECT Mesa_idMesa 
       FROM Reserva 
-      WHERE ? >= fecha_hora 
-      AND ? <= DATE_ADD(fecha_hora, INTERVAL 30 MINUTE)
+      WHERE ? >= DATE_SUB(fecha_hora, INTERVAL 2 HOUR) 
+      AND ? <= DATE_ADD(fecha_hora, INTERVAL 2 HOUR)
       AND estado != 'CANCELADA'
       AND estado != 'RECHAZADA'
     `, [fecha_hora, fecha_hora]);
@@ -231,6 +231,32 @@ app.post('/api/clientes/registro', async (req, res) => {
   if (!nombre1 || !apellido_paterno || !apellido_materno || !email || !contrasena) {
     return res.status(400).json({ error: 'Faltan campos requeridos (Nombre, Apellidos)' });
   }
+  
+  const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+  if (!nameRegex.test(nombre1) || !nameRegex.test(apellido_paterno) || !nameRegex.test(apellido_materno)) {
+    return res.status(400).json({ error: 'Los nombres y apellidos solo deben contener letras' });
+  }
+  if (nombre2 && !nameRegex.test(nombre2)) {
+    return res.status(400).json({ error: 'El segundo nombre solo debe contener letras' });
+  }
+  
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Correo electrónico inválido' });
+  }
+  const emailDomain = email.split('@')[1]?.toLowerCase();
+  if (!['gmail.com', 'hotmail.com'].includes(emailDomain)) {
+    return res.status(400).json({ error: 'Solo se permiten correos @gmail.com o @hotmail.com' });
+  }
+  
+  if (telefono && telefono.length !== 10) {
+    return res.status(400).json({ error: 'El teléfono debe tener exactamente 10 dígitos' });
+  }
+  
+  if (contrasena.length < 6) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' });
+  }
+  
   try {
     const [ins] = await pool.query(
       'INSERT INTO Cliente (nombre1, nombre2, apellido_paterno, apellido_materno, email, telefono, contrasena) VALUES (?,?,?,?,?,?,?)',
@@ -288,6 +314,9 @@ app.post('/api/login', async (req, res) => {
 
 app.get('/api/reservas', async (_req, res) => {
   try {
+    // Auto-delete past reservations (more than 2 hours ago)
+    await pool.query(`DELETE FROM Reserva WHERE fecha_hora < DATE_SUB(NOW(), INTERVAL 2 HOUR) AND estado IN ('CREADA', 'CONFIRMADA')`);
+    
     const [rows] = await pool.query(`
       SELECT 
         r.folioReserva, r.fecha_hora, r.numero_personas, r.estado, r.notas,
@@ -299,6 +328,23 @@ app.get('/api/reservas', async (_req, res) => {
       LEFT JOIN Mesa m ON r.Mesa_idMesa = m.idMesa
       ORDER BY r.fecha_hora DESC
     `);
+    res.json(rows);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
+app.get('/api/reservas/cliente/:id', async (req, res) => {
+  try {
+    const [rows] = await pool.query(`
+      SELECT 
+        r.folioReserva, r.fecha_hora, r.numero_personas, r.estado, r.notas,
+        m.numero AS mesa_numero
+      FROM Reserva r
+      LEFT JOIN Mesa m ON r.Mesa_idMesa = m.idMesa
+      WHERE r.Cliente_idCliente = ?
+      ORDER BY r.fecha_hora DESC
+    `, [req.params.id]);
     res.json(rows);
   } catch (e) {
     res.status(500).json({ error: e.message });

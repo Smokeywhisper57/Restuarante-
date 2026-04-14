@@ -236,6 +236,11 @@
     const fecha_hora = `${fecha} ${hora}:00`;
     const notas = document.getElementById('mensaje').value.trim() || null;
     
+    if (!mesa_id) {
+      alert('Debes seleccionar una mesa en el mapa antes de confirmar la reserva.');
+      return;
+    }
+    
     fetch('/api/reservas', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

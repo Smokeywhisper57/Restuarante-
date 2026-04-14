@@ -373,8 +373,17 @@
             <input id="mComensales" type="number" min="1" max="20" value="2"/>
           </div>
           <div class="mfield">
-            <label>ID Mesa (Opcional)</label>
-            <input id="mMesa" type="number" placeholder="Ej. 5"/>
+            <label>Mesa</label>
+            <div style="display:flex;gap:8px;align-items:center">
+              <input id="mMesa" type="number" placeholder="Ej. 5" style="flex:1"/>
+              <button type="button" onclick="openMesaSelector()" style="padding:8px 12px;background:var(--gold);color:white;border:none;border-radius:8px;cursor:pointer;font-weight:700;white-space:nowrap;">Ver Mapa</button>
+            </div>
+          </div>
+        </div>
+        <div class="mfield" id="mesaSelectorSection" style="display:none;">
+          <label>Disponibilidad de Mesas (Selecciona una)</label>
+          <div id="miniMapMesas" style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;max-height:200px;overflow-y:auto;padding:10px;background:#f9f7f4;border-radius:10px;">
+            <!-- JS render -->
           </div>
         </div>
         <div class="mfield">
@@ -405,6 +414,15 @@
 
     function formatFecha(iso) {
       if (!iso) return { fecha: '—', hora: '—' };
+      // Parse directly to avoid timezone shift from UTC
+      const match = iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+      if (match) {
+        const [, year, month, day, hour, minute] = match;
+        const fecha = `${day}/${month}/${year}`;
+        const hora = `${hour}:${minute}`;
+        return { fecha, hora };
+      }
+      // Fallback
       const d = new Date(iso);
       const fecha = d.toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' });
       const hora = d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -676,6 +694,46 @@
       e.stopPropagation();
       const dropdown = document.getElementById('notifDropdown');
       dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
+    }
+
+    async function openMesaSelector() {
+      const fecha = document.getElementById('mFecha').value;
+      const hora = document.getElementById('mHora').value;
+      
+      const section = document.getElementById('mesaSelectorSection');
+      const container = document.getElementById('miniMapMesas');
+      
+      if (!fecha || !hora) {
+        alert('Selecciona primero fecha y hora');
+        return;
+      }
+      
+      section.style.display = 'block';
+      
+      try {
+        const r = await fetch(`/api/mesas-disponibilidad?fecha_hora=${fecha} ${hora}:00`);
+        const data = await r.json();
+        
+        container.innerHTML = data.map(m => {
+          const disponible = m.disponibilidad === 1;
+          const nombre = m.numero || `Mesa ${m.idMesa}`;
+          return `<div onclick="selectMiniMesa(${m.idMesa}, '${nombre}', ${disponible})" 
+            style="padding:10px;border-radius:8px;text-align:center;font-weight:700;cursor:${disponible ? 'pointer' : 'not-allowed'};background:${disponible ? '#e8f5e9' : '#ffebee'};color:${disponible ? '#2e7d32' : '#c62828'};border:2px solid ${disponible ? '#a5d6a7' : '#ef9a9a'};user-select:none;">
+            ${nombre}<br><span style="font-size:0.7rem;font-weight:400">${disponible ? 'Disponible' : 'Ocupada'}</span>
+          </div>`;
+        }).join('');
+      } catch (err) {
+        alert('Error cargando disponibilidad de mesas');
+      }
+    }
+
+    function selectMiniMesa(id, nombre, disponible) {
+      if (!disponible) {
+        alert('Esa mesa está ocupada para el horario seleccionado');
+        return;
+      }
+      document.getElementById('mMesa').value = id;
+      document.getElementById('mesaSelectorSection').style.display = 'none';
     }
 
     document.addEventListener('click', () => {

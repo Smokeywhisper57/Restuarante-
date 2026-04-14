@@ -178,6 +178,23 @@
       return;
     }
 
+    const emailDomain = email.split('@')[1]?.toLowerCase();
+    if (!['gmail.com', 'hotmail.com'].includes(emailDomain)) {
+      alert('Solo se permiten correos de Gmail (@gmail.com) o Hotmail (@hotmail.com).');
+      return;
+    }
+
+    const nameRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!nameRegex.test(nombre1) || !nameRegex.test(apellido_paterno) || !nameRegex.test(apellido_materno)) {
+      alert('Los nombres y apellidos solo deben contener letras.');
+      return;
+    }
+
+    if (nombre2 && !nameRegex.test(nombre2)) {
+      alert('El segundo nombre solo debe contener letras.');
+      return;
+    }
+
     if (telefono && telefono.length !== 10) {
       alert('El teléfono debe tener exactamente 10 dígitos.');
       return;

@@ -84,6 +84,13 @@
     <button class="btn-save" onclick="guardarCambios()">Guardar Cambios</button>
     <a href="#" class="logout-btn" onclick="logout()">Cerrar Sesión</a>
   </div>
+
+  <div class="profile-card" style="margin-top: 30px;">
+    <h2 style="font-family: 'Playfair Display', serif; margin-bottom: 20px;">Mis Reservaciones</h2>
+    <div id="misReservas">
+      <p style="color:#a89a90; text-align:center;">Cargando...</p>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -104,6 +111,59 @@
     document.getElementById('apellido_materno').value = userData.apellido_materno || '';
     document.getElementById('email').value = userData.email || '';
     document.getElementById('telefono').value = userData.telefono || '';
+    
+    cargarMisReservas();
+  }
+
+  async function cargarMisReservas() {
+    if (!userData || !userData.idCliente) return;
+    try {
+      const res = await fetch(`/api/reservas/cliente/${userData.idCliente}`);
+      const data = await res.json();
+      const container = document.getElementById('misReservas');
+      
+      if (!data || data.length === 0) {
+        container.innerHTML = '<p style="color:#a89a90; text-align:center;">No tienes reservaciones aún.</p>';
+        return;
+      }
+      
+      const statusLabels = {
+        'CREADA': ['Pendiente', '#f57f17', '#fff8e1'],
+        'CONFIRMADA': ['Confirmada', '#2e7d32', '#e8f5e9'],
+        'CANCELADA': ['Cancelada', '#c62828', '#ffebee'],
+        'RECHAZADA': ['Rechazada', '#c62828', '#ffebee']
+      };
+      
+      container.innerHTML = data.map(r => {
+        const [stLabel, stColor, stBg] = statusLabels[r.estado] || [r.estado, '#666', '#f5f5f5'];
+        const match = r.fecha_hora.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);
+        let fecha, hora;
+        if (match) {
+          const [, year, month, day, hour, minute] = match;
+          fecha = `${day}/${month}/${year}`;
+          hora = `${hour}:${minute}`;
+        } else {
+          const fh = new Date(r.fecha_hora);
+          fecha = fh.toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' });
+          hora = fh.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit', hour12: false });
+        }
+        return `
+          <div style="border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:12px; background:white;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+              <strong style="color:var(--gold);">#${r.folioReserva}</strong>
+              <span style="background:${stBg}; color:${stColor}; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:700;">${stLabel}</span>
+            </div>
+            <p style="margin:4px 0; font-size:0.9rem;"><strong>Fecha:</strong> ${fecha}</p>
+            <p style="margin:4px 0; font-size:0.9rem;"><strong>Hora:</strong> ${hora}</p>
+            <p style="margin:4px 0; font-size:0.9rem;"><strong>Personas:</strong> ${r.numero_personas}</p>
+            <p style="margin:4px 0; font-size:0.9rem;"><strong>Mesa:</strong> ${r.mesa_numero || 'Por asignar'}</p>
+            ${r.notas ? `<p style="margin:4px 0; font-size:0.85rem; color:#666;"><em>Nota: ${r.notas}</em></p>` : ''}
+          </div>
+        `;
+      }).join('');
+    } catch (err) {
+      document.getElementById('misReservas').innerHTML = '<p style="color:#c62828; text-align:center;">Error al cargar reservaciones.</p>';
+    }
   }
 
   async function guardarCambios() {
