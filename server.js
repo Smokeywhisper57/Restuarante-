@@ -400,6 +400,10 @@ app.post('/api/reservas', async (req, res) => {
   if (!email || !fecha_hora || !numero_personas) {
     return res.status(400).json({ error: 'Faltan campos obligatorios' });
   }
+  const emailDomain = email.split('@')[1]?.toLowerCase();
+  if (!['gmail.com', 'hotmail.com'].includes(emailDomain)) {
+    return res.status(400).json({ error: 'Solo se permiten correos @gmail.com o @hotmail.com' });
+  }
   const conn = await pool.getConnection();
   try {
     await conn.beginTransaction();

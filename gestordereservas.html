@@ -628,6 +628,15 @@
       
       if (!nombre || !email || !fecha || !hora) return alert('Por favor, completa los campos obligatorios.');
 
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return alert('Por favor, ingresa un correo electrónico válido.');
+      }
+      const emailDomain = email.split('@')[1]?.toLowerCase();
+      if (!['gmail.com', 'hotmail.com'].includes(emailDomain)) {
+        return alert('Solo se permiten correos @gmail.com o @hotmail.com.');
+      }
+
       // --- VALIDACIÓN DE HORARIOS ---
       const fechaObj = new Date(fecha + 'T00:00:00');
       const diaSemana = fechaObj.getDay(); 
