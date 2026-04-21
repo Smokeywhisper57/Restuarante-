@@ -39,3 +39,25 @@ nav a {
   transition: color .2s, border-color .2s;
 }
 nav a:hover { color: var(--brown); border-bottom-color: var(--gold); }
+
+/* RESPONSIVE HEADER */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 15px;
+  }
+  .logo {
+    font-size: 1.5rem;
+    padding: 10px 0;
+  }
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  nav a {
+    padding: 10px 12px;
+    font-size: 0.75rem;
+  }
+}
+

@@ -213,9 +213,12 @@
     }
 
     @media (max-width: 700px) {
-      .page { grid-template-columns: 1fr; }
+      .page { grid-template-columns: 1fr; max-width: 100%; margin: 0; box-shadow: none; }
       .photo-col { height: 220px; }
       .fields-grid { grid-template-columns: 1fr; }
       .form-col { padding: 28px 20px; }
+      .msg-row { grid-template-columns: 1fr; }
+      .btn-mapa { align-self: flex-start; width: 100%; }
+      .btn-siguiente { width: 100%; }
     }
   </style>

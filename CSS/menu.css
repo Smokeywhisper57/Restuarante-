@@ -230,7 +230,11 @@
     }
 
     @media (max-width: 768px) {
-      .main-grid { grid-template-columns: 1fr; }
-      .cards-row { grid-template-columns: repeat(2, 1fr); }
-      footer { grid-template-columns: 1fr; gap: 16px; }
+      .main-grid { grid-template-columns: 1fr; padding: 15px; }
+      .hero { height: 200px; }
+      .cards-row { grid-template-columns: repeat(2, 1fr); padding: 15px; }
+      footer { grid-template-columns: 1fr; gap: 20px; padding: 20px 15px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .cards-row { grid-template-columns: 1fr; }
     }

@@ -130,3 +130,14 @@
       transition: background .2s, transform .15s;
     }
     .btn-confirm:hover { background: var(--brown-mid); transform: translateY(-1px); }
+
+/* RESPONSIVE MAP */
+@media (max-width: 768px) {
+  .page { padding: 15px; }
+  .time-selector { flex-direction: column; align-items: stretch !important; }
+  .time-selector button { margin-top: 5px !important; }
+  .map-wrap { padding: 10px; border-radius: 8px; }
+  .info-panel { flex-direction: column; text-align: center; }
+  .info-panel div { width: 100%; justify-content: center; }
+  .btn-confirm { width: 100%; }
+}

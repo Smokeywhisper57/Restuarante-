@@ -97,12 +97,17 @@
     .login-link a:hover {
       text-decoration: underline;
     }
+    @media (max-width: 480px) {
+      .register-card { padding: 30px 20px; border-radius: 0; box-shadow: none; max-width: 100%; }
+      .main-content { padding: 0; }
+      div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+    }
   </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">Yucatán Restaurante</div>
+  <div class="logo">La Naolinqueña</div>
   <nav>
     <a href="index.html">Inicio</a>
     <a href="menu.html">Menú</a>
