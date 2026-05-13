@@ -1,0 +1,126 @@
+DIAGRAMA DE CLASES - SISTEMA DE RESTAURANTE
+
+Este documento describe la estructura de clases del sistema basada en el esquema de la base de datos y la lógica del servidor.
+
+=========================================
+1. CLASE: Administrador
+=========================================
+Representa a los usuarios con privilegios de gestión.
+
+Atributos:
+- idAdministrador: int (Llave Primaria)
+- email: string (Único)
+- contrasena: string
+- rol: string (Default: 'admin')
+
+Responsabilidades:
+- Gestionar el catálogo de mesas.
+- Gestionar las reservas de los clientes.
+- Administrar la información de los usuarios.
+
+=========================================
+2. CLASE: Cliente
+=========================================
+Representa a los comensales que utilizan el sistema.
+
+Atributos:
+- idCliente: int (Llave Primaria)
+- nombre1: string
+- nombre2: string (Opcional)
+- apellido_paterno: string
+- apellido_materno: string
+- email: string (Único)
+- telefono: string
+- contrasena: string
+
+Responsabilidades:
+- Registrarse en el sistema.
+- Iniciar sesión.
+- Realizar y consultar sus propias reservas.
+
+=========================================
+3. CLASE: Mesa
+=========================================
+Representa las unidades físicas de consumo en el restaurante.
+
+Atributos:
+- idMesa: int (Llave Primaria)
+- numero: string
+- capacidad: int
+- ubicacion: string (Ejem: 'salon', 'booth')
+- disponibilidad: boolean
+- tipo: string
+
+=========================================
+4. CLASE: Reserva
+=========================================
+Representa la separación de una mesa por un cliente en una fecha y hora específica.
+
+Atributos:
+- folioReserva: int (Llave Primaria)
+- fecha_hora: datetime
+- numero_personas: int
+- estado: string (Ejem: 'CREADA', 'CANCELADA', 'RECHAZADA')
+- fecha_creacion: datetime
+- notas: text
+- Cliente_idCliente: int (Llave Foránea -> Cliente)
+- Mesa_idMesa: int (Llave Foránea -> Mesa)
+
+=========================================
+RELACIONES ENTRE CLASES
+=========================================
+1. Cliente (1) ---- (*) Reserva
+   Un cliente puede realizar múltiples reservas a lo largo del tiempo.
+
+2. Mesa (1) ---- (*) Reserva
+   Una mesa puede ser asignada a múltiples reservas (en diferentes horarios).
+
+3. Administrador ----> Gestiona ----> [Cliente, Mesa, Reserva]
+   El administrador tiene autoridad sobre todas las entidades del sistema.
+
+=========================================
+DIAGRAMA MERMAID (Representación Visual)
+=========================================
+classDiagram
+    class Administrador {
+        +int idAdministrador
+        +string email
+        +string contrasena
+        +string rol
+    }
+
+    class Cliente {
+        +int idCliente
+        +string nombre1
+        +string nombre2
+        +string apellido_paterno
+        +string apellido_materno
+        +string email
+        +string telefono
+        +string contrasena
+        +registrarse()
+        +login()
+    }
+
+    class Mesa {
+        +int idMesa
+        +string numero
+        +int capacidad
+        +string ubicacion
+        +boolean disponibilidad
+        +string tipo
+    }
+
+    class Reserva {
+        +int folioReserva
+        +datetime fecha_hora
+        +int numero_personas
+        +string estado
+        +datetime fecha_creacion
+        +string notas
+        +int Cliente_idCliente
+        +int Mesa_idMesa
+    }
+
+    Cliente "1" -- "*" Reserva : realiza
+    Mesa "1" -- "*" Reserva : es_asignada
